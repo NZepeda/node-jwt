@@ -1,5 +1,7 @@
-// Todo: Set these as environment variables
+require('dotenv').config();
+
+
 module.exports = {
-    'secret': 'de51c7df658ebb122516006aae14550b', 
-    'database': 'mongodb://localhost:27017/nodejwt'
+    'secret': process.env.SECRET,
+    'database': process.env.DATABASE
 }
