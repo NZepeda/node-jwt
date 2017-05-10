@@ -8,15 +8,17 @@ module.exports = (passport) => {
     opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
     opts.secretOrKey = config.secret;
     
-    passport.use(new JwtStrategy(opts, (payload, done)=>{
+    passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
 
-        User.findOne({id: payload.id}, (err, user)=>{
+        User.findOne({id: jwt_payload._id}, (err, user) => {
 
-            if(err) {return done(err, false)}
+            if(err) {
+                return done(err, false)
+            }
 
             // This is a callback, if the user exits return it
             if(user){
-                done(null, user);
+                done(null, user);    
             }else{
                 done(null, false);
             }

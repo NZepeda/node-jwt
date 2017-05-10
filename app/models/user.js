@@ -20,7 +20,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 // Save users hashed password
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function(next){
     var user = this;
     console.log(this);
     
@@ -30,7 +30,7 @@ UserSchema.pre('save', (next) => {
 
             bcrypt.hash(user.password, salt, (err, hash)=> {
                 if(err) {return next(err)}
-
+                
                 user.password = hash;
                 next();
             });
@@ -42,7 +42,7 @@ UserSchema.pre('save', (next) => {
 });
 
 // Create method to compare password
-UserSchema.methods.comparePassword = (pw, cb) => {
+UserSchema.methods.comparePassword = function(pw, cb){
     bcrypt.compare(pw, this.password, (err, isMatch) => {
         if(err) {return cb(err)}
 

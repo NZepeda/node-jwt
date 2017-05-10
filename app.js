@@ -55,14 +55,14 @@ router.post('/authenticate', (req, res) => {
             res.send({success: false, message: 'Authentication failed! User not found'});
         } else{
             // Check if the password matches
-            user.comparePassword(req.body.passpord, (err, isMatch)=> {
+            user.comparePassword(req.body.password, (err, isMatch) => {
                 if(isMatch && !err){
                     // Create the token
                     var token = jwt.sign(user, config.secret, {
                         expiresIn: 3600 // time in seconds (1 hour)
                     });
 
-                    res.json({success: true, token: 'JWT' + token});
+                    res.json({success: true, token: 'JWT ' + token});
                 }
                 else{
                     res.send({success: false, message: 'Authentication failed: Password didn\'t match'});
@@ -73,7 +73,7 @@ router.post('/authenticate', (req, res) => {
 });
 
 // Random protected route to test
-router.get('/dashboard', passport.authenticate('jwt', {session: 'false'}), (req, res) => {
+router.get('/dashboard', passport.authenticate('jwt', {session: false}), function(req, res){
     res.send('User id is: ' + req.user._id);
 });
 
